@@ -13,15 +13,21 @@ const ORDERS_FILE = path.join(__dirname, 'data', 'orders.json');
 const COUNTER_FILE = path.join(__dirname, 'data', 'counter.json');
 
 // Middleware
+const corsOptions = {
+  origin: [
+    "http://localhost:3000",   // for local dev (Vite/React default)
+    "https://yourfrontend.netlify.app", // Netlify frontend
+    "https://yourcustomdomain.com" // If you attach a real domain
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
 
-const cors = require("cors");
-
-app.use(cors({
-  origin: "*" 
-}));
 
 // Email Configuration
 const emailConfig = {

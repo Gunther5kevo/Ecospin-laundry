@@ -373,12 +373,11 @@ app.get('/', (req, res) => {
 app.use(
   "/admin",
   basicAuth,
-  express.static(path.join(__dirname, "public", "admin"))
+  express.static(path.join(__dirname, "admin"))
 );
 
-// Keep public site open
+// ✅ Serve customer-facing public site (open)
 app.use(express.static(path.join(__dirname, "public")));
-
 
 
 

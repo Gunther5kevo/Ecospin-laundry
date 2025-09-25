@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EcoSpin Laundry - Professional laundry services in Chuka with free pickup and delivery. Pay with M-Pesa.">
+  <meta name="keywords" content="laundry, dry cleaning, carpet cleaning, Chuka, M-Pesa payment">
+  <title>EcoSpin Laundry - Clean Clothes, Cleaner Planet</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>EcoSpin Laundry</h1>
+    <p>Clean Clothes, Cleaner Planet</p>
+  </header>
+
+  <nav>
+    <a href="#services">Services</a>
+    <a href="#how">How It Works</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-text">
+      <h2>Fresh, Clean & Delivered</h2>
+      <p>Free Pick Up & Delivery in Chuka, Slaughter</p>
+      <div class="hero-btns">
+        <a href="https://wa.me/254758389387" class="btn green">Order on WhatsApp</a>
+        <button class="btn orange" onclick="openOrderModal()">Pay with M-Pesa</button>
+      </div>
+    </div>
+  </div>
+
+  <section id="services">
+    <h2>Our Services</h2>
+    <div class="services">
+      <div class="card" data-service="carpet">
+        <img src="images/carpets.png" alt="Carpet Cleaning" loading="lazy">
+        <h3>Carpets</h3>
+        <p>Door Mats - 99/=</p>
+        <p>Fluffy - 249/=</p>
+        <p>Hard Carpets - 299/=</p>
+        <button class="btn-small orange" onclick="selectService('carpet')">Order Now</button>
+      </div>
+      <div class="card" data-service="duvet">
+        <img src="images/duvet.png" alt="Duvet Cleaning" loading="lazy">
+        <h3>Duvets</h3>
+        <p>3 by 6 - 249/=</p>
+        <p>4 by 6 - 299/=</p>
+        <p>5 by 6 - 350/=</p>
+        <p>6 by 6 - 399/=</p>
+        <button class="btn-small orange" onclick="selectService('duvet')">Order Now</button>
+      </div>
+      <div class="card" data-service="small-laundry">
+        <img src="images/laundry-small.png" alt="Small Laundry Basket" loading="lazy">
+        <h3>Laundry Basket (Small)</h3>
+        <p>Narrow Small - 249/=</p>
+        <button class="btn-small orange" onclick="selectService('small-laundry')">Order Now</button>
+      </div>
+      <div class="card" data-service="large-laundry">
+        <img src="images/laudry-wide-small.png" alt="Large Laundry Basket" loading="lazy">
+        <h3>Laundry Basket (Large)</h3>
+        <p>Narrow Large - 299/=</p>
+        <p>Wide Large - 399/=</p>
+        <button class="btn-small orange" onclick="selectService('large-laundry')">Order Now</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="how" class="alt-bg">
+    <h2>How It Works</h2>
+    <div class="steps">
+      <div class="step">1. Choose service & place order</div>
+      <div class="step">2. Pay via M-Pesa using our instructions</div>
+      <div class="step">3. We pick up your laundry (free pickup)</div>
+      <div class="step">4. We deliver back clean & fresh</div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact Us</h2>
+    <p>📞 Call/WhatsApp: 
+      <a href="https://wa.me/254758389387">0758389387</a>, 
+      <a href="https://wa.me/254742129213">0742129213</a>, 
+      <a href="https://wa.me/254707618149">0707618149</a>
+    </p>
+    <p>📍 Location: Chuka, Slaughter</p>
+  </section>
+
+  <!-- Order Modal -->
+  <div id="orderModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeOrderModal()">&times;</span>
+      <h2>Place Your Order</h2>
+      <form id="orderForm">
+        <div class="form-group">
+          <label for="serviceType">Service Type:</label>
+          <select id="serviceType" name="serviceType" required onchange="updateServiceOptions()">
+            <option value="">Select a service</option>
+            <option value="carpet">Carpet Cleaning</option>
+            <option value="duvet">Duvet Cleaning</option>
+            <option value="small-laundry">Small Laundry Basket</option>
+            <option value="large-laundry">Large Laundry Basket</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="serviceOption">Service Option:</label>
+          <select id="serviceOption" name="serviceOption" required onchange="updatePrice()">
+            <option value="">Select service first</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="price">Price (KSH):</label>
+          <input type="number" id="price" name="price" readonly required>
+        </div>
+        <div class="form-group">
+          <label for="name">Full Name:</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number:</label>
+          <input type="tel" id="phone" name="phone" pattern="^254[0-9]{9}$" placeholder="254712345678" required>
+        </div>
+        <div class="form-group">
+          <label for="address">Pickup/Delivery Address:</label>
+          <textarea id="address" name="address" rows="2" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="notes">Additional Notes (Optional):</label>
+          <textarea id="notes" name="notes" rows="2"></textarea>
+        </div>
+        <button type="submit" class="btn orange">Create Order</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 EcoSpin Laundry. All rights reserved.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

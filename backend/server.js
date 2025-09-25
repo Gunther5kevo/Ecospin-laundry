@@ -13,9 +13,15 @@ const ORDERS_FILE = path.join(__dirname, 'data', 'orders.json');
 const COUNTER_FILE = path.join(__dirname, 'data', 'counter.json');
 
 // Middleware
-app.use(cors());
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
+
+const cors = require("cors");
+
+app.use(cors({
+  origin: "*" 
+}));
 
 // Email Configuration
 const emailConfig = {

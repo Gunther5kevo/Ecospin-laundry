@@ -1,3 +1,11 @@
+// ==============================
+// API Base URL (auto-switch local vs production)
+// ==============================
+const API_BASE_URL =
+  window.location.hostname === "localhost"
+    ? "http://localhost:3000"
+    : "https://ecospin-laundry.onrender.com";
+
 // Admin Dashboard JavaScript
 class AdminDashboard {
   constructor() {
@@ -20,7 +28,7 @@ class AdminDashboard {
       this.showLoading(true);
       this.hideError();
 
-      const response = await fetch("http://localhost:3000/api/orders");
+      const response = await fetch(`${API_BASE_URL}/api/orders`);
       const data = await response.json();
 
       if (data.success) {
@@ -225,11 +233,15 @@ class AdminDashboard {
         <td>${order.service}</td>
         <td><span class="amount">KSH ${order.price.toLocaleString()}</span></td>
         <td>
-          <div style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${order.address}">
+          <div style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${
+            order.address
+          }">
             ${order.address}
           </div>
         </td>
-        <td>${new Date(type === "pending" ? order.createdAt : order.paidAt).toLocaleString()}</td>
+        <td>${new Date(
+          type === "pending" ? order.createdAt : order.paidAt
+        ).toLocaleString()}</td>
         <td><span class="status ${statusClass}">${order.status}</span></td>
         ${
           type === "pending"
@@ -245,7 +257,9 @@ class AdminDashboard {
         `
             : `
           <td>
-            <span class="notes" title="${order.notes || "No notes"}">${order.notes || "-"}</span>
+            <span class="notes" title="${order.notes || "No notes"}">${
+                order.notes || "-"
+              }</span>
           </td>
         `
         }
@@ -303,7 +317,7 @@ class AdminDashboard {
       confirmBtn.disabled = true;
 
       const response = await fetch(
-        `http://localhost:3000/api/confirm-payment/${orderId}`,
+        `${API_BASE_URL}/api/confirm-payment/${orderId}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -341,7 +355,7 @@ class AdminDashboard {
   async deleteOrder(orderId) {
     if (!confirm(`Are you sure you want to delete order ${orderId}?`)) return;
     try {
-      const res = await fetch(`http://localhost:3000/api/order/${orderId}`, {
+      const res = await fetch(`${API_BASE_URL}/api/order/${orderId}`, {
         method: "DELETE",
       });
       const data = await res.json();
@@ -353,7 +367,10 @@ class AdminDashboard {
       }
     } catch (err) {
       console.error("Delete error:", err);
-      this.showNotification(`❌ Failed to delete order: ${err.message}`, "error");
+      this.showNotification(
+        `❌ Failed to delete order: ${err.message}`,
+        "error"
+      );
     }
   }
 

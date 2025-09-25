@@ -48,8 +48,8 @@ try {
 }
 
 // Configuration
-const BUSINESS_NUMBER = process.env.BUSINESS_NUMBER || '0758389387';
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@ecospinlaundry.com';
+const BUSINESS_NUMBER = process.env.BUSINESS_NUMBER ;
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 const BUSINESS_NAME = 'EcoSpin Laundry';
 
 // In-memory storage for orders (loaded from JSON)
@@ -356,8 +356,9 @@ app.get('/', (req, res) => {
 
 // Get admin dashboard
 app.get('/admin', (req, res) => {
-    res.redirect('..public/admin.html');
+    res.sendFile(path.join(__dirname, '../public/admin.html'));
 });
+
 
 // Create manual payment order
 app.post('/api/create-order', async (req, res) => {

@@ -3,6 +3,8 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs').promises;
 const nodemailer = require('nodemailer');
+const { basicAuth } = require('./middleware/basicAuth');
+
 require('dotenv').config();
 
 const app = express();
@@ -367,9 +369,17 @@ app.get('/', (req, res) => {
 });
 
 // Get admin dashboard
-app.get('/admin', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/admin.html'));
-});
+// Protect everything under /admin
+app.use(
+  "/admin",
+  basicAuth,
+  express.static(path.join(__dirname, "public", "admin"))
+);
+
+// Keep public site open
+app.use(express.static(path.join(__dirname, "public")));
+
+
 
 
 // Create manual payment order
@@ -743,7 +753,7 @@ async function startServer() {
             console.log(`🚀 EcoSpin Laundry server running on port ${PORT}`);
             console.log(`💳 Payment Mode: Manual M-Pesa`);
             console.log(`📱 Business Number: ${BUSINESS_NUMBER}`);
-            console.log(`📊 Admin Dashboard: http://localhost:${PORT}/admin.html`);
+            console.log(`📊 Admin Dashboard: http://localhost:${PORT}/admin/`);
             console.log(`🌐 Website: http://localhost:${PORT}`);
             console.log(`📧 Email notifications: ${transporter ? '✅ Configured' : '❌ Not configured'}`);
             console.log(`📈 API Health Check: http://localhost:${PORT}/api/health`);

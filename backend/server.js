@@ -18,7 +18,7 @@ const COUNTER_FILE = path.join(__dirname, 'data', 'counter.json');
 const corsOptions = {
   origin: [
     "http://localhost:3000",   // for local dev (Vite/React default)
-    "https://yourfrontend.netlify.app", // Netlify frontend
+    "https://ecospin-laundrychuka.netlify.app", // Netlify frontend
     "https://yourcustomdomain.com" // If you attach a real domain
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],

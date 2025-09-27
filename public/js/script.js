@@ -3,10 +3,9 @@
 // ==============================
 // Detect environment (local vs production)
 const API_BASE_URL =
-  window.location.hostname === "localhost"
+  (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
     ? "http://localhost:3000"
     : "https://ecospin-laundry.onrender.com";
-
 // Smooth scroll for nav links
 document.querySelectorAll("nav a").forEach((anchor) => {
   anchor.addEventListener("click", (e) => {
@@ -139,17 +138,35 @@ orderForm.addEventListener("submit", async (e) => {
 
   const serviceType = document.getElementById("serviceType").value;
   const serviceOptionIndex = document.getElementById("serviceOption").value;
+
+  // Validation
+  if (!serviceType || serviceOptionIndex === "") {
+    alert("Please select a service and option");
+    return;
+  }
+
   const selectedOption =
     serviceOptions[serviceType][parseInt(serviceOptionIndex)];
+
+  if (!selectedOption) {
+    alert("Invalid service option selected");
+    return;
+  }
 
   const formData = {
     service: `${getServiceTypeName(serviceType)} - ${selectedOption.name}`,
     price: selectedOption.price,
-    name: document.getElementById("name").value,
-    phone: document.getElementById("phone").value,
-    address: document.getElementById("address").value,
-    notes: document.getElementById("notes").value,
+    name: document.getElementById("name").value.trim(),
+    phone: document.getElementById("phone").value.trim(),
+    address: document.getElementById("address").value.trim(),
+    notes: document.getElementById("notes").value.trim(),
   };
+
+  // Basic validation
+  if (!formData.name || !formData.phone || !formData.address) {
+    alert("Please fill in all required fields (Name, Phone, Address)");
+    return;
+  }
 
   console.log("Creating manual payment order:", formData);
 
@@ -162,13 +179,22 @@ orderForm.addEventListener("submit", async (e) => {
   try {
     const res = await fetch(`${API_BASE_URL}/api/create-order`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
       body: JSON.stringify(formData),
     });
 
-    const data = await res.json();
+    let data;
+    try {
+      data = await res.json();
+    } catch (parseError) {
+      console.error("Failed to parse response as JSON:", parseError);
+      throw new Error("Invalid response from server");
+    }
 
-    if (data.success) {
+    if (res.ok && data.success) {
       // Show payment instructions
       showPaymentInstructions(data.order);
       closeOrderModal();
@@ -177,11 +203,13 @@ orderForm.addEventListener("submit", async (e) => {
       document.getElementById("serviceType").value = "";
       updateServiceOptions();
     } else {
-      alert(`❌ Order failed: ${data.message || "Unknown error"}`);
+      const errorMessage = data.message || `Server error (${res.status})`;
+      alert(`Order failed: ${errorMessage}`);
+      console.error("Order creation failed:", data);
     }
   } catch (err) {
-    console.error(err);
-    alert("❌ Something went wrong while creating your order.");
+    console.error("Order creation error:", err);
+    alert("Something went wrong while creating your order. Please check your connection and try again.");
   } finally {
     // Reset button
     submitBtn.textContent = originalText;
@@ -204,15 +232,16 @@ function getServiceTypeName(serviceType) {
 function showPaymentInstructions(order) {
   const instructionsHTML = `
     <div class="payment-instructions">
-      <h3>🎉 Order Created Successfully!</h3>
+      <h3>Order Created Successfully!</h3>
       <div class="order-details">
         <p><strong>Order ID:</strong> ${order.id}</p>
         <p><strong>Service:</strong> ${order.service}</p>
         <p><strong>Amount:</strong> KSH ${order.price}</p>
+        <p><strong>Status:</strong> <span class="status-badge pending">${order.status.replace('_', ' ').toUpperCase()}</span></p>
       </div>
       
       <div class="payment-steps">
-        <h4>📱 Payment Instructions:</h4>
+        <h4>Payment Instructions:</h4>
         <ol>
           <li>Open your M-Pesa menu</li>
           <li>Select "Send Money"</li>
@@ -224,7 +253,7 @@ function showPaymentInstructions(order) {
       </div>
       
       <div class="next-steps">
-        <h4>✅ What happens next:</h4>
+        <h4>What happens next:</h4>
         <ul>
           <li>We'll confirm your payment within 30 minutes</li>
           <li>Our team will contact you to arrange pickup</li>
@@ -234,7 +263,11 @@ function showPaymentInstructions(order) {
       </div>
       
       <div class="contact-info">
-        <p><strong>Questions?</strong> Call/WhatsApp: <a href="https://wa.me/254758389387">0758389387</a></p>
+        <p><strong>Questions?</strong> Call/WhatsApp: <a href="https://wa.me/254758389387" target="_blank">0758389387</a></p>
+      </div>
+      
+      <div class="order-tracking">
+        <p><strong>Track your order:</strong> Save your Order ID (${order.id}) to check status anytime</p>
       </div>
       
       <button onclick="closePaymentInstructions()" class="btn orange">Got it!</button>
@@ -264,6 +297,37 @@ function closePaymentInstructions() {
   }
 }
 
+// Order tracking functionality (optional enhancement)
+function trackOrder() {
+  const orderId = prompt("Enter your Order ID:");
+  if (!orderId) return;
+
+  fetch(`${API_BASE_URL}/api/order/${orderId}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        const order = data.order;
+        alert(`Order Status: ${order.status.replace('_', ' ').toUpperCase()}\nService: ${order.service}\nAmount: KSH ${order.price}`);
+      } else {
+        alert("Order not found. Please check your Order ID.");
+      }
+    })
+    .catch(err => {
+      console.error("Order tracking error:", err);
+      alert("Unable to track order. Please try again later.");
+    });
+}
+
+// Add error handling for network issues
+window.addEventListener('online', () => {
+  console.log('Connection restored');
+});
+
+window.addEventListener('offline', () => {
+  console.log('Connection lost');
+  alert('No internet connection. Please check your connection and try again.');
+});
+
 // Expose functions globally (important for inline onclick in HTML)
 window.selectService = selectService;
 window.openOrderModal = openOrderModal;
@@ -271,3 +335,4 @@ window.closeOrderModal = closeOrderModal;
 window.closePaymentInstructions = closePaymentInstructions;
 window.updateServiceOptions = updateServiceOptions;
 window.updatePrice = updatePrice;
+window.trackOrder = trackOrder;

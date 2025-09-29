@@ -9,85 +9,6 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
       rel="stylesheet"
     />
-    <style>
-      /* Additional styles for enhanced modal */
-      .modal-content {
-        max-width: 500px;
-      }
-
-      .form-group {
-        margin-bottom: 20px;
-      }
-
-      .form-group label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 600;
-        color: #333;
-      }
-
-      .form-group input {
-        width: 100%;
-        padding: 12px;
-        border: 2px solid #ddd;
-        border-radius: 6px;
-        font-size: 16px;
-        font-family: "Courier New", monospace;
-        text-transform: uppercase;
-        transition: border-color 0.3s ease;
-      }
-
-      .form-group input:focus {
-        outline: none;
-        border-color: #0077cc;
-        box-shadow: 0 0 0 3px rgba(0, 119, 204, 0.1);
-      }
-
-      .validation-error {
-        background: #ffebee;
-        border: 1px solid #ffcdd2;
-        color: #c62828;
-        padding: 10px;
-        border-radius: 4px;
-        margin-bottom: 15px;
-        display: none;
-      }
-
-      .validation-error i {
-        margin-right: 8px;
-      }
-
-      .mpesa-info {
-        background: #e8f5e8;
-        border: 1px solid #c8e6c9;
-        color: #2e7d32;
-        padding: 12px;
-        border-radius: 4px;
-        margin-bottom: 20px;
-        font-size: 14px;
-      }
-
-      .mpesa-info i {
-        margin-right: 8px;
-        color: #4caf50;
-      }
-
-      .mpesa-ref {
-        font-family: "Courier New", monospace;
-        font-size: 12px;
-        background: #f5f5f5;
-        padding: 2px 6px;
-        border-radius: 3px;
-      }
-
-      /* Enhanced table styling for M-Pesa reference column */
-      .table-container table th:nth-child(8),
-      .table-container table td:nth-child(8) {
-        min-width: 100px;
-        font-family: "Courier New", monospace;
-        font-size: 12px;
-      }
-    </style>
   </head>
   <body>
     <!-- Header -->
@@ -130,25 +51,26 @@
           <!-- Stats will be populated by JavaScript -->
         </div>
 
-        <!-- Pending Orders Section -->
-        <div class="orders-section">
-          <div class="section-header">
-            <h3><i class="fas fa-clock"></i> Pending Payments</h3>
-            <span id="pendingCount" class="count-badge">0</span>
-          </div>
-          <div id="pendingOrders">
-            <!-- Pending orders will be populated by JavaScript -->
-          </div>
+        <!-- Order Tabs -->
+        <div class="order-tabs">
+          <button class="tab-btn active" onclick="adminDashboard.switchTab('pending')">
+            <i class="fas fa-clock"></i> Pending Payments <span id="pendingCount" class="count-badge">0</span>
+          </button>
+          <button class="tab-btn" onclick="adminDashboard.switchTab('paid')">
+            <i class="fas fa-credit-card"></i> Paid Orders <span id="paidCount" class="count-badge">0</span>
+          </button>
+          <button class="tab-btn" onclick="adminDashboard.switchTab('in_progress')">
+            <i class="fas fa-cogs"></i> In Progress <span id="progressCount" class="count-badge">0</span>
+          </button>
+          <button class="tab-btn" onclick="adminDashboard.switchTab('completed')">
+            <i class="fas fa-check-circle"></i> Completed <span id="completedCount" class="count-badge">0</span>
+          </button>
         </div>
 
-        <!-- Completed Orders Section -->
+        <!-- Orders Container -->
         <div class="orders-section">
-          <div class="section-header">
-            <h3><i class="fas fa-check-circle"></i> Completed Orders</h3>
-            <span id="completedCount" class="count-badge">0</span>
-          </div>
-          <div id="completedOrders">
-            <!-- Completed orders will be populated by JavaScript -->
+          <div id="ordersContainer">
+            <!-- Orders will be populated by JavaScript -->
           </div>
         </div>
       </div>
@@ -157,7 +79,7 @@
     <!-- Notification Container -->
     <div id="notifications" class="notifications-container"></div>
 
-    <!-- Enhanced Confirmation Modal -->
+    <!-- Payment Confirmation Modal -->
     <div id="confirmModal" class="modal">
       <div class="modal-content">
         <div class="modal-header">
@@ -207,6 +129,68 @@
           </button>
           <button class="btn btn-success" id="confirmPaymentBtn">
             <i class="fas fa-check"></i> Confirm Payment
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Management Modal -->
+    <div id="orderModal" class="modal">
+      <div class="modal-content modal-wide">
+        <div class="modal-header">
+          <h3><i class="fas fa-edit"></i> Manage Order <span id="orderModalId"></span></h3>
+          <button class="modal-close" onclick="closeOrderModal()">
+            &times;
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="order-details" id="orderDetails">
+            <!-- Order details will be populated -->
+          </div>
+
+          <div class="form-group">
+            <label for="orderStatus">Order Status</label>
+            <select id="orderStatus">
+              <option value="pending_payment">Pending Payment</option>
+              <option value="paid">Paid</option>
+              <option value="pickup_scheduled">Pickup Scheduled</option>
+              <option value="picked_up">Picked Up</option>
+              <option value="in_progress">In Progress</option>
+              <option value="ready_for_delivery">Ready for Delivery</option>
+              <option value="delivered">Delivered</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="pickupDate">Pickup Date</label>
+              <input type="datetime-local" id="pickupDate" />
+            </div>
+            <div class="form-group">
+              <label for="deliveryDate">Delivery Date</label>
+              <input type="datetime-local" id="deliveryDate" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="adminNotes">Admin Notes</label>
+            <textarea id="adminNotes" rows="3" placeholder="Internal notes about this order..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="notifyCustomer" />
+              <span class="checkmark"></span>
+              Notify customer of status change
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" onclick="closeOrderModal()">
+            <i class="fas fa-times"></i> Cancel
+          </button>
+          <button class="btn btn-primary" id="updateOrderBtn">
+            <i class="fas fa-save"></i> Update Order
           </button>
         </div>
       </div>

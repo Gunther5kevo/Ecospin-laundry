@@ -162,6 +162,34 @@ body {
     letter-spacing: 0.5px;
 }
 
+/* Stat Card Color Variants */
+.stat-card.warning {
+    border-left-color: #ffc107;
+}
+
+.stat-card.warning i,
+.stat-card.warning h3 {
+    color: #ffc107;
+}
+
+.stat-card.info {
+    border-left-color: #17a2b8;
+}
+
+.stat-card.info i,
+.stat-card.info h3 {
+    color: #17a2b8;
+}
+
+.stat-card.success {
+    border-left-color: #28a745;
+}
+
+.stat-card.success i,
+.stat-card.success h3 {
+    color: #28a745;
+}
+
 .stat-card.revenue {
     border-left-color: #28a745;
 }
@@ -180,6 +208,59 @@ body {
     color: #ffc107;
 }
 
+/* Order Tabs */
+.order-tabs {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 20px;
+    padding: 10px;
+    display: flex;
+    gap: 5px;
+    overflow-x: auto;
+}
+
+.tab-btn {
+    background: transparent;
+    border: none;
+    padding: 15px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #666;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.tab-btn:hover {
+    background: #f8f9fa;
+    color: #0077cc;
+}
+
+.tab-btn.active {
+    background: linear-gradient(135deg, #0077cc 0%, #005fa3 100%);
+    color: white;
+}
+
+.tab-btn .count-badge {
+    background: rgba(255, 255, 255, 0.2);
+    color: inherit;
+    padding: 3px 8px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    min-width: 20px;
+    text-align: center;
+}
+
+.tab-btn.active .count-badge {
+    background: rgba(255, 255, 255, 0.9);
+    color: #0077cc;
+}
+
 /* Orders Section */
 .orders-section {
     background: white;
@@ -187,34 +268,6 @@ body {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     margin-bottom: 30px;
     overflow: hidden;
-}
-
-.section-header {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    padding: 20px;
-    border-bottom: 1px solid #dee2e6;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.section-header h3 {
-    color: #495057;
-    margin: 0;
-    font-size: 1.3rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.count-badge {
-    background: #0077cc;
-    color: white;
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 600;
 }
 
 /* Table Styles */
@@ -225,20 +278,21 @@ body {
 table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 800px;
+    min-width: 1000px;
 }
 
 th, td {
-    padding: 15px;
+    padding: 15px 12px;
     text-align: left;
     border-bottom: 1px solid #dee2e6;
+    font-size: 0.9rem;
 }
 
 th {
     background: #f8f9fa;
     font-weight: 600;
     color: #495057;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     position: sticky;
@@ -254,22 +308,15 @@ th {
     background: #f8f9fa;
 }
 
-.pending-row {
-    background: linear-gradient(135deg, #fff8e1 0%, #fffbf0 100%);
-}
-
-.paid-row {
-    background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
-}
-
 /* Status Badges */
 .status {
     padding: 6px 12px;
     border-radius: 20px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
     display: inline-block;
+    white-space: nowrap;
 }
 
 .status.pending {
@@ -277,14 +324,48 @@ th {
     color: #856404;
 }
 
-.status.paid {
+.status.success {
     background: #d4edda;
     color: #155724;
 }
 
-/* Buttons */
+.status.info {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.status.warning {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status.primary {
+    background: #cce5ff;
+    color: #004085;
+}
+
+/* Date Display */
+.date-scheduled {
+    color: #28a745;
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+.no-date {
+    color: #6c757d;
+    font-style: italic;
+    font-size: 0.8rem;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
 .btn {
-    padding: 10px 15px;
+    padding: 8px 12px;
     border: none;
     border-radius: 6px;
     cursor: pointer;
@@ -294,7 +375,13 @@ th {
     align-items: center;
     gap: 6px;
     transition: all 0.3s ease;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
+    line-height: 1;
+}
+
+.btn-sm {
+    padding: 6px 10px;
+    font-size: 0.75rem;
 }
 
 .btn-primary {
@@ -304,8 +391,8 @@ th {
 
 .btn-primary:hover {
     background: #0056a3;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 119, 204, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 119, 204, 0.3);
 }
 
 .btn-success {
@@ -315,8 +402,8 @@ th {
 
 .btn-success:hover {
     background: #218838;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
 }
 
 .btn-secondary {
@@ -328,13 +415,15 @@ th {
     background: #545b62;
 }
 
-.btn-info {
-    background: #17a2b8;
+.btn-danger {
+    background: #dc3545;
     color: white;
 }
 
-.btn-info:hover {
-    background: #138496;
+.btn-danger:hover {
+    background: #c82333;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
 }
 
 /* Links */
@@ -352,19 +441,11 @@ th {
 }
 
 /* Text Utilities */
-.notes {
-    font-style: italic;
-    color: #666;
-    max-width: 200px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
 .order-id {
     font-family: 'Courier New', monospace;
     font-weight: 700;
     color: #0077cc;
+    font-size: 0.85rem;
 }
 
 .amount {
@@ -445,12 +526,18 @@ th {
 
 .modal-content {
     background-color: white;
-    margin: 10% auto;
+    margin: 5% auto;
     border-radius: 12px;
     width: 90%;
     max-width: 500px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     animation: modalSlideIn 0.3s ease;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-wide {
+    max-width: 700px;
 }
 
 .modal-header {
@@ -459,6 +546,11 @@ th {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: sticky;
+    top: 0;
+    background: white;
+    border-radius: 12px 12px 0 0;
+    z-index: 1;
 }
 
 .modal-header h3 {
@@ -509,6 +601,129 @@ th {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
+    position: sticky;
+    bottom: 0;
+    background: white;
+    border-radius: 0 0 12px 12px;
+}
+
+/* Enhanced modal styles for order management */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #0077cc;
+    box-shadow: 0 0 0 3px rgba(0, 119, 204, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.validation-error {
+    background: #ffebee;
+    border: 1px solid #ffcdd2;
+    color: #c62828;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    display: none;
+}
+
+.validation-error i {
+    margin-right: 8px;
+}
+
+.mpesa-info {
+    background: #e8f5e8;
+    border: 1px solid #c8e6c9;
+    color: #2e7d32;
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.mpesa-info i {
+    margin-right: 8px;
+    color: #4caf50;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-weight: normal;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+}
+
+.checkmark {
+    font-weight: 600;
+}
+
+/* Order Details Grid */
+.order-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.info-item label {
+    font-weight: 600;
+    color: #666;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0;
+}
+
+.info-item span {
+    color: #333;
+    font-weight: 500;
 }
 
 /* Animations */
@@ -557,30 +772,68 @@ th {
         font-size: 1.5rem;
     }
 
+    .header-actions {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .refresh-btn, .home-btn {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+
     .container {
         padding: 15px;
     }
 
     .stats-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
     }
 
     .stat-card {
-        padding: 20px;
+        padding: 20px 15px;
+    }
+
+    .stat-card h3 {
+        font-size: 1.5rem;
+    }
+
+    .stat-card i {
+        font-size: 2rem;
+    }
+
+    .order-tabs {
+        padding: 5px;
+        gap: 2px;
+    }
+
+    .tab-btn {
+        padding: 12px 15px;
+        font-size: 0.8rem;
+    }
+
+    .tab-btn i {
+        display: none;
+    }
+
+    table {
+        min-width: 800px;
     }
 
     th, td {
-        padding: 10px;
-        font-size: 0.9rem;
-    }
-
-    .notes {
-        max-width: 100px;
-    }
-
-    .btn {
-        padding: 8px 12px;
+        padding: 10px 8px;
         font-size: 0.8rem;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    .btn-sm {
+        padding: 8px 10px;
+        font-size: 0.7rem;
     }
 
     .modal-content {
@@ -588,25 +841,154 @@ th {
         margin: 5% auto;
     }
 
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .order-info-grid {
+        grid-template-columns: 1fr;
+    }
+
     .notifications-container {
         left: 10px;
         right: 10px;
         max-width: none;
     }
+
+    .notification {
+        padding: 12px 15px;
+        font-size: 0.9rem;
+    }
 }
 
 @media (max-width: 480px) {
-    .section-header {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
+    .header h1 {
+        font-size: 1.2rem;
     }
 
-    .table-container {
-        font-size: 0.8rem;
+    .container {
+        padding: 10px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .stat-card {
+        padding: 15px;
     }
 
     .stat-card h3 {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
+    }
+
+    .stat-card p {
+        font-size: 0.8rem;
+    }
+
+    .order-tabs {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .tab-btn {
+        justify-content: center;
+        padding: 10px;
+    }
+
+    table {
+        min-width: 600px;
+    }
+
+    th, td {
+        padding: 8px 6px;
+        font-size: 0.75rem;
+    }
+
+    .order-id {
+        font-size: 0.7rem;
+    }
+
+    .phone-link {
+        font-size: 0.8rem;
+    }
+
+    .status {
+        font-size: 0.7rem;
+        padding: 4px 8px;
+    }
+
+    .btn-sm {
+        padding: 6px 8px;
+        font-size: 0.65rem;
+    }
+
+    .modal-header,
+    .modal-body,
+    .modal-footer {
+        padding: 15px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .empty-state {
+        padding: 40px 15px;
+    }
+
+    .empty-state i {
+        font-size: 2.5rem;
+    }
+
+    .empty-state h4 {
+        font-size: 1rem;
+    }
+}
+
+/* High DPI / Retina Display Optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 2dppx) {
+    .stat-card {
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    .orders-section {
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    }
+}
+
+/* Print Styles */
+@media print {
+    .header,
+    .notifications-container,
+    .modal,
+    .btn {
+        display: none !important;
+    }
+
+    body {
+        background: white !important;
+    }
+
+    .container {
+        max-width: none;
+        padding: 0;
+    }
+
+    .orders-section {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+
+    table {
+        min-width: auto;
+    }
+
+    .order-row:hover {
+        background: transparent;
     }
 }

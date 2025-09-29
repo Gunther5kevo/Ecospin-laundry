@@ -40,7 +40,6 @@
         <p>Door Mats - 99/=</p>
         <p>Fluffy - 249/=</p>
         <p>Hard Carpets - 299/=</p>
-    
         <button class="btn-small orange" onclick="selectService('carpet')">Order Now</button>
       </div>
       <div class="card" data-service="duvet">
@@ -72,10 +71,10 @@
   <section id="how" class="alt-bg">
     <h2>How It Works</h2>
     <div class="steps">
-      <div class="step">1. Choose service & place order</div>
+      <div class="step">1. Choose service & schedule pickup/delivery</div>
       <div class="step">2. Pay via M-Pesa using our instructions</div>
-      <div class="step">3. We pick up your laundry (free pickup)</div>
-      <div class="step">4. We deliver back clean & fresh</div>
+      <div class="step">3. We pick up your laundry at your chosen time</div>
+      <div class="step">4. We deliver back clean & fresh when you want</div>
     </div>
   </section>
 
@@ -127,9 +126,37 @@
           <label for="address">Pickup/Delivery Address:</label>
           <textarea id="address" name="address" rows="2" required></textarea>
         </div>
+
+        <!-- NEW SCHEDULING SECTION -->
+        <div class="scheduling-section">
+          <h3 style="margin: 20px 0 10px 0; color: #0077cc;">Schedule Your Service (Optional)</h3>
+          
+          <div class="form-group">
+            <label for="pickupDate">Pickup Date:</label>
+            <input type="date" id="pickupDate" name="pickupDate" min="">
+            <small style="color: #666; display: block; margin-top: 5px;">Leave empty for immediate pickup</small>
+          </div>
+
+          <div class="form-group">
+            <label for="deliveryDate">Delivery Date:</label>
+            <input type="date" id="deliveryDate" name="deliveryDate" min="">
+            <small style="color: #666; display: block; margin-top: 5px;">Leave empty for standard turnaround</small>
+          </div>
+
+          <div class="form-group">
+            <label for="preferredTime">Preferred Time:</label>
+            <select id="preferredTime" name="preferredTime">
+              <option value="">Anytime (8AM - 6PM)</option>
+              <option value="morning">Morning (8AM - 12PM)</option>
+              <option value="afternoon">Afternoon (12PM - 4PM)</option>
+              <option value="evening">Evening (4PM - 6PM)</option>
+            </select>
+          </div>
+        </div>
+
         <div class="form-group">
           <label for="notes">Additional Notes (Optional):</label>
-          <textarea id="notes" name="notes" rows="2"></textarea>
+          <textarea id="notes" name="notes" rows="2" placeholder="Any special instructions..."></textarea>
         </div>
         <button type="submit" class="btn orange">Create Order</button>
       </form>
